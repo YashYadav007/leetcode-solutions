@@ -1,20 +1,24 @@
 class Solution {
     public void nextPermutation(int[] nums) {
-        int i,j=0;
-        boolean flag=false;
-        for(i=nums.length-1;i>=0;i--){
-            for(j=i-1;j>=0;j--){
-                if(nums[i]>nums[j]) {
-                    flag=true;
-                    int temp = nums[i];
-                    nums[i]=nums[j];
-                    nums[j]=temp;
-                    break;
-                }
+        int i,breakingPoint=-1;
+        for(i=nums.length-1;i>0;i--){
+            if(nums[i]>nums[i-1]){
+                breakingPoint=i-1;
+                break;
             }
-            if(flag) break;
         }
-        if(flag)Arrays.sort(nums,j+1,nums.length);
-        else Arrays.sort(nums);
+        if(breakingPoint==-1){
+            Arrays.sort(nums);
+            return;
+        }
+        for(i=nums.length-1;i>0;i--){
+            if(nums[breakingPoint]<nums[i]){
+                int temp = nums[breakingPoint];
+                nums[breakingPoint]=nums[i];
+                nums[i]=temp;
+                break;
+            }
+        }
+        Arrays.sort(nums,breakingPoint+1,nums.length);
     }
 }
